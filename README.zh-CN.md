@@ -79,3 +79,5 @@ Gorb是使用ESP32-S3作为主控的鼠标项目，支持USB和无线(BLE)双模
 
 * 通过 [Issue](https://github.com/UniYUIN/Gorb-ESP32WirelessMouse/issues) 报告 bug 或进行咨询。
 * 提交 [Pull Request](https://github.com/UniYUIN/Gorb-ESP32WirelessMouse/pulls) 改进 Gorb 的代码。
+
+> 如果对你有帮助, 请考虑给gorb一个⭐

@@ -60,7 +60,7 @@ uint16_t tud_hid_get_report_cb(uint8_t instance, uint8_t report_id, hid_report_t
 }
 
 extern void api_set_dpi(uint16_t dpi);
-extern void api_macro(int16_t x, int16_t y);
+extern void api_macro(int16_t x, int16_t y, uint8_t btns);
 
 void tud_hid_set_report_cb(uint8_t instance, uint8_t report_id, hid_report_type_t report_type, uint8_t const *buffer, uint16_t bufsize)
 {
@@ -75,7 +75,8 @@ void tud_hid_set_report_cb(uint8_t instance, uint8_t report_id, hid_report_type_
         case 0x03: // macro
             int16_t x = buffer[1] | (buffer[2] << 8);
             int16_t y = buffer[3] | (buffer[4] << 8);
-            api_macro(x, y);
+            uint8_t btns = buffer[5];
+            api_macro(x, y, btns);
             break;
         default:
             break;

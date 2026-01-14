@@ -350,12 +350,15 @@ void api_set_dpi(uint16_t dpi)
     set_dpi(dpi);
 }
 
-void api_macro(int16_t x, int16_t y)
+void api_macro(int16_t x, int16_t y, uint8_t btns)
 {
     accum_item_t item = {
         .x = x,
         .y = y,
     };
+
+    // this is thread unsafe
+    buttons |= btns;
 
     xQueueSend(accum_queue, &item, 0);
 }

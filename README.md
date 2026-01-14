@@ -86,3 +86,5 @@ Welcome to contribute to Gorb through the following ways:
 
 * Report bugs or consult via [Issue](https://github.com/UniYUIN/Gorb-ESP32WirelessMouse/issues).
 * Submit [Pull Request](https://github.com/UniYUIN/Gorb-ESP32WirelessMouse/pulls) to improve Gorb's code.# Gorb-ESP32WirelessMouse
+
+>If it was helpful to you, please consider giving gorb a star ⭐

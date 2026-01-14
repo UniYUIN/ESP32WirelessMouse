@@ -15,9 +15,6 @@
 
 static const char *TAG = "ble";
 
-extern void api_set_dpi(uint16_t dpi);
-extern void api_macro(int16_t x, int16_t y);
-
 static const uint8_t mouse_report_map[] = {
     // Application Collection: Mouse
     0x05,
@@ -94,45 +91,6 @@ static const uint8_t mouse_report_map[] = {
     0x06, //     Input (Data,Var,Rel) - Vertical wheel
 
     0xC0, //   End Collection (Physical)
-
-    // Report ID 2: Host -> Device (Set DPI)
-    0x85,
-    0x02, //   Report ID (2)
-    0x05,
-    0x01, //   Usage Page (Generic Desktop)
-    0x09,
-    0x00, //   Usage (Undefined)
-    0x15,
-    0x00, //   Logical Minimum (0)
-    0x26,
-    0xFF,
-    0xFF, //   Logical Maximum (65535)
-    0x75,
-    0x10, //   Report Size (16)
-    0x95,
-    0x01, //   Report Count (1)
-    0x91,
-    0x02, //   Output (Data,Var,Abs) - uint16_t data
-
-    // Report ID 3: Host -> Device (Macro)
-    0x85,
-    0x03, //   Report ID (3)
-    0x05,
-    0x01, //   Usage Page (Generic Desktop)
-    0x09,
-    0x00, //   Usage (Undefined)
-    0x16,
-    0x00,
-    0x80, //   Logical Minimum (-32768)
-    0x26,
-    0xFF,
-    0x7F, //   Logical Maximum (32767)
-    0x75,
-    0x10, //   Report Size (16)
-    0x95,
-    0x02, //   Report Count (2)
-    0x91,
-    0x02, //   Output (Data,Var,Abs) - two int16_t data
 
     0xC0, // End Collection (Application)
 };
@@ -214,31 +172,6 @@ static void ble_hidd_event_callback(void *handler_args, esp_event_base_t base, i
     {
         ESP_LOGI(TAG, "OUTPUT[%u]: %8s ID: %2u, Len: %d, Data:", param->output.map_index, esp_hid_usage_str(param->output.usage), param->output.report_id, param->output.length);
         ESP_LOG_BUFFER_HEX(TAG, param->output.data, param->output.length);
-
-        // TODO: ble output
-        switch (param->output.report_id)
-        {
-        case 2: // set dpi
-            if (param->output.length >= 2)
-            {
-                int16_t dpi = (uint16_t)(param->output.data[0] | (param->output.data[1] << 8));
-                api_set_dpi(dpi);
-            }
-            break;
-
-        case 3: // macro
-            if (param->output.length >= 4)
-            {
-                int16_t x = (int16_t)(param->output.data[0] | (param->output.data[1] << 8));
-                int16_t y = (int16_t)(param->output.data[2] | (param->output.data[3] << 8));
-                api_macro(x, y);
-            }
-            break;
-
-        default:
-            ESP_LOGW(TAG, "error Output Report ID: %d", param->output.report_id);
-            break;
-        }
 
         break;
     }
