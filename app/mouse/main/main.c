@@ -358,7 +358,7 @@ void api_macro(int16_t x, int16_t y, uint8_t btns)
     };
 
     // this is thread unsafe
-    buttons |= btns;
+    buttons = btns;
 
     xQueueSend(accum_queue, &item, 0);
 }
